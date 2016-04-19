@@ -19,6 +19,8 @@ int main(int argc, char *argv[]){
     SDL_Window *window(SDL_CreateWindow( "Spacerocks", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN ));
     assert(window);
 
+    SDL_Surface *surface = SDL_GetWindowSurface(window);
+
     const auto start_time = std::chrono::high_resolution_clock::now();
     bool running = true;
     while(running){
@@ -29,6 +31,7 @@ int main(int argc, char *argv[]){
                 running = false;
             }
         }
+        SDL_FillRect( surface, NULL, SDL_MapRGB( surface->format, 0xFF, 0x88, 0x00 ) );
         SDL_UpdateWindowSurface(window);
         FRAMES_RENDERED++;
     }
