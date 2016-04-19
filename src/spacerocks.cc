@@ -19,7 +19,12 @@ int main(int argc, char *argv[]){
     SDL_Window *window(SDL_CreateWindow( "Spacerocks", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN ));
     assert(window);
 
-    SDL_Surface *surface = SDL_GetWindowSurface(window);
+    SDL_Renderer *renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED);
+    assert(renderer);
+    SDL_SetRenderDrawColor( renderer, 0xFF, 0x88, 0x00, 0xFF );
+
+    //SDL_Texture *texture = SDL_CreateTexture( renderer, SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_STATIC, SCREEN_WIDTH, SCREEN_HEIGHT );
+    //assert(texture);
 
     const auto start_time = std::chrono::high_resolution_clock::now();
     bool running = true;
@@ -31,8 +36,9 @@ int main(int argc, char *argv[]){
                 running = false;
             }
         }
-        SDL_FillRect( surface, NULL, SDL_MapRGB( surface->format, 0xFF, 0x88, 0x00 ) );
-        SDL_UpdateWindowSurface(window);
+        SDL_RenderClear( renderer );
+        SDL_RenderPresent( renderer );
+        //SDL_RenderCopy( renderer, texture, NULL, NULL);
         FRAMES_RENDERED++;
     }
     const auto end_time = std::chrono::high_resolution_clock::now();
