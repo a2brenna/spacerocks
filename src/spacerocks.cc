@@ -1,9 +1,11 @@
 #include <SDL2/SDL.h>
 #include <iostream>
 #include <cassert>
+#include <chrono>
 
 size_t SCREEN_WIDTH = 800;
 size_t SCREEN_HEIGHT = 600;
+size_t FRAMES_RENDERED = 0;
 
 
 int main(int argc, char *argv[]){
@@ -17,6 +19,7 @@ int main(int argc, char *argv[]){
     SDL_Window *window(SDL_CreateWindow( "Spacerocks", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN ));
     assert(window);
 
+    const auto start_time = std::chrono::high_resolution_clock::now();
     bool running = true;
     while(running){
 
@@ -27,8 +30,11 @@ int main(int argc, char *argv[]){
             }
         }
         SDL_UpdateWindowSurface(window);
-        SDL_Delay(20);
+        FRAMES_RENDERED++;
     }
+    const auto end_time = std::chrono::high_resolution_clock::now();
+
+    std::cerr << "FPS: " << FRAMES_RENDERED / std::chrono::duration_cast<std::chrono::seconds>(end_time - start_time).count() << std::endl;
 
     return 0;
 }
