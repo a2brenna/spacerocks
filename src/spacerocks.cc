@@ -40,8 +40,15 @@ int main(int argc, char *argv[]){
     SDL_Window *window(SDL_CreateWindow( "Spacerocks", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, CONFIG_SCREEN_WIDTH, CONFIG_SCREEN_HEIGHT, SDL_WINDOW_SHOWN ));
     assert(window);
 
-    SDL_Renderer *renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC );
+    SDL_Renderer *renderer;
+    if(CONFIG_VSYNC){
+        renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC );
+    }
+    else{
+        renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED );
+    }
     assert(renderer);
+
     SDL_SetRenderDrawColor( renderer, 0xFF, 0x88, 0x00, 0xFF );
 
     //SDL_Texture *texture = SDL_CreateTexture( renderer, SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_STATIC, CONFIG_SCREEN_WIDTH, CONFIG_SCREEN_HEIGHT );
