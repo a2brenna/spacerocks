@@ -62,7 +62,11 @@ int main(int argc, char *argv[]){
         while(SDL_PollEvent(&e) != 0){
             if(e.type == SDL_QUIT){
                 running = false;
+                break;
             }
+        }
+        if(!running){
+            break;
         }
         SDL_RenderClear( renderer );
         SDL_RenderPresent( renderer );
