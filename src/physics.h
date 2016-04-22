@@ -1,12 +1,14 @@
 #ifndef __PHYSICS_H__
 #define __PHYSICS_H__
 
+#include <stdint.h>
+
 class Position {
 
     public:
 
-        int x;
-        int y;
+        uint64_t x;
+        uint64_t y;
 
 };
 
@@ -14,8 +16,8 @@ class Displacement {
 
     public:
 
-        int x;
-        int y;
+        int64_t x;
+        int64_t y;
 
 };
 
@@ -23,8 +25,8 @@ class Velocity {
 
     public:
 
-        int x;
-        int y;
+        int64_t x;
+        int64_t y;
 
 };
 
