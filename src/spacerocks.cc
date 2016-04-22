@@ -49,7 +49,7 @@ int main(int argc, char *argv[]){
     }
     assert(renderer);
 
-    SDL_SetRenderDrawColor( renderer, 0xFF, 0x88, 0x00, 0xFF );
+    SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0xFF );
 
     //SDL_Texture *texture = SDL_CreateTexture( renderer, SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_STATIC, CONFIG_SCREEN_WIDTH, CONFIG_SCREEN_HEIGHT );
     //assert(texture);
