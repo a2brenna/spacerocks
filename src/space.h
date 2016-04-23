@@ -11,7 +11,7 @@ class Space{
 
     private:
 
-        std::vector<Object> _objects;
+        std::vector<std::shared_ptr<Object>> _objects;
 
     public:
 

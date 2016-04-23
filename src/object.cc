@@ -5,3 +5,7 @@ Object::Object(const Position &initial_placement, const Velocity &initial_veloci
     _velocity(initial_velocity)
 {
 }
+
+void Object::step(const std::chrono::high_resolution_clock::duration &interval){
+
+}
