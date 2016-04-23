@@ -7,5 +7,6 @@ Object::Object(const Position &initial_placement, const Velocity &initial_veloci
 }
 
 void Object::step(const std::chrono::high_resolution_clock::duration &interval){
-
+    const Displacement displacement(_velocity, interval);
+    _position = _position + displacement;
 }
