@@ -12,6 +12,9 @@ size_t CONFIG_SCREEN_WIDTH = 800;
 size_t CONFIG_SCREEN_HEIGHT = 600;
 bool CONFIG_VSYNC = false;
 
+#include "space.h"
+Space space;
+
 void get_config(int argc, char *argv[]){
     po::options_description desc("Options");
     desc.add_options()
@@ -51,11 +54,10 @@ int main(int argc, char *argv[]){
 
     SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0xFF );
 
-    //SDL_Texture *texture = SDL_CreateTexture( renderer, SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_STATIC, CONFIG_SCREEN_WIDTH, CONFIG_SCREEN_HEIGHT );
-    //assert(texture);
-
     const auto start_time = std::chrono::high_resolution_clock::now();
     bool running = true;
+
+    auto universe_time = start_time;
     while(running){
 
         SDL_Event e;
@@ -68,10 +70,16 @@ int main(int argc, char *argv[]){
         if(!running){
             break;
         }
+
+        const auto current_time = std::chrono::high_resolution_clock::now();
+        const auto interval = current_time - universe_time;
+        space.step(interval);
+
         SDL_RenderClear( renderer );
         SDL_RenderPresent( renderer );
-        //SDL_RenderCopy( renderer, texture, NULL, NULL);
         FRAMES_RENDERED++;
+
+        universe_time = current_time;
     }
     const auto end_time = std::chrono::high_resolution_clock::now();
 
