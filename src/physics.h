@@ -7,6 +7,7 @@
 //to screen resolution.
 
 #include <stdint.h>
+#include <chrono>
 
 class Position {
 
@@ -14,15 +15,7 @@ class Position {
 
         uint64_t x;
         uint64_t y;
-
-};
-
-class Displacement {
-
-    public:
-
-        int64_t x;
-        int64_t y;
+        Position(const uint64_t &initial_x, const uint64_t &initial_y);
 
 };
 
@@ -32,7 +25,21 @@ class Velocity {
 
         int64_t x;
         int64_t y;
+        Velocity(const int64_t &initial_x, const int64_t &initial_y);
 
 };
+
+class Displacement {
+
+    public:
+
+        int64_t x;
+        int64_t y;
+        Displacement(const Velocity &v, const std::chrono::high_resolution_clock::duration &t);
+
+};
+
+Velocity operator+(const Velocity &a, const Velocity &b);
+Position operator+(const Position &a, const Displacement &b);
 
 #endif
