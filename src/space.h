@@ -11,12 +11,11 @@ class Space{
 
     private:
 
-        std::chrono::high_resolution_clock::time_point _current_time;
         std::vector<Object> _objects;
 
     public:
 
-        void update(const std::chrono::high_resolution_clock::time_point &new_time);
+        void step(const std::chrono::high_resolution_clock::duration &interval);
 
 };
 
