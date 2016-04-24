@@ -11,9 +11,15 @@ namespace po = boost::program_options;
 size_t CONFIG_SCREEN_WIDTH = 800;
 size_t CONFIG_SCREEN_HEIGHT = 600;
 bool CONFIG_VSYNC = false;
+uint64_t max_start_velocity = std::numeric_limits<uint64_t>::max() / std::min(CONFIG_SCREEN_WIDTH, CONFIG_SCREEN_HEIGHT) / 1000000000;
+uint64_t min_start_velocity = max_start_velocity / 10;
 
 #include "space.h"
 Space space;
+
+#include "rock.h"
+
+#include <random>
 
 void get_config(int argc, char *argv[]){
     po::options_description desc("Options");
@@ -28,6 +34,20 @@ void get_config(int argc, char *argv[]){
     const auto cmdline_params = po::parse_command_line(argc, argv, desc);
     po::store(cmdline_params, vm);
     po::notify(vm);
+}
+
+void populate_universe(Space &space){
+    std::default_random_engine re;
+    std::uniform_int_distribution<uint64_t> rand_p_component;
+    std::uniform_int_distribution<int64_t> rand_v_component(min_start_velocity, max_start_velocity);
+
+    for(int i = 0; i < 10; i++){
+        const Position initial_p(rand_p_component(re), rand_p_component(re));
+        const Velocity initial_v(rand_v_component(re), rand_v_component(re));
+        std::cerr << "Add: Rock: " << initial_p << " " << initial_v << std::endl;
+        space.add_object(std::shared_ptr<Object>(new Rock(initial_p, initial_v)));
+    }
+
 }
 
 int main(int argc, char *argv[]){
@@ -53,6 +73,8 @@ int main(int argc, char *argv[]){
     assert(renderer);
 
     SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0xFF );
+
+    populate_universe(space);
 
     const auto start_time = std::chrono::high_resolution_clock::now();
     bool running = true;
