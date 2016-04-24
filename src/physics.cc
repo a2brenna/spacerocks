@@ -22,3 +22,11 @@ Velocity operator+(const Velocity &a, const Velocity &b){
 Position operator+(const Position &a, const Displacement &b){
     return Position(a.x + b.x, a.y + b.y);
 }
+
+std::ostream &operator<<(std::ostream& os, const Velocity &v){
+    return os << "(" << v.x << ", " << v.y << ")";
+}
+
+std::ostream &operator<<(std::ostream& os, const Position &p){
+    return os << "(" << p.x << ", " << p.y << ")";
+}

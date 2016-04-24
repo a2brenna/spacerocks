@@ -8,6 +8,7 @@
 
 #include <stdint.h>
 #include <chrono>
+#include <iostream>
 
 class Position {
 
@@ -41,5 +42,8 @@ class Displacement {
 
 Velocity operator+(const Velocity &a, const Velocity &b);
 Position operator+(const Position &a, const Displacement &b);
+
+std::ostream &operator<<(std::ostream& os, const Velocity &v);
+std::ostream &operator<<(std::ostream& os, const Position &p);
 
 #endif
