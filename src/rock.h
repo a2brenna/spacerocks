@@ -7,6 +7,7 @@ class Rock : public Object{
 
     public:
         using Object::Object;
+        std::string str() const;
 
 };
 
