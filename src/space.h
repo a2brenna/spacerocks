@@ -17,6 +17,7 @@ class Space{
 
         void step(const std::chrono::high_resolution_clock::duration &interval);
         void add_object(std::shared_ptr<Object> new_object);
+        const std::vector<std::shared_ptr<Object>> objects() const;
         std::string str() const;
 
 };

@@ -34,6 +34,10 @@ std::string Space::str() const{
     }
 }
 
+const std::vector<std::shared_ptr<Object>> Space::objects() const{
+    return _objects;
+}
+
 std::ostream &operator<<(std::ostream &o, const Space &s){
     return o << s.str();
 }
