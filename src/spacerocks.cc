@@ -109,9 +109,11 @@ int main(int argc, char *argv[]){
 
         const auto current_time = std::chrono::high_resolution_clock::now();
         const auto interval = current_time - universe_time;
+
         space.step(interval);
         std::cerr << space << std::endl;
 
+        SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0xFF );
         SDL_RenderClear( renderer );
         render_space( renderer, space );
         SDL_RenderPresent( renderer );
