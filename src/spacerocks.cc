@@ -11,8 +11,9 @@ namespace po = boost::program_options;
 size_t CONFIG_SCREEN_WIDTH = 800;
 size_t CONFIG_SCREEN_HEIGHT = 600;
 bool CONFIG_VSYNC = false;
-uint64_t max_start_velocity = std::numeric_limits<uint64_t>::max() / std::min(CONFIG_SCREEN_WIDTH, CONFIG_SCREEN_HEIGHT) / 1000000000;
-uint64_t min_start_velocity = max_start_velocity / 10;
+const uint64_t ten_seconds_in_nanos = 10 * 1000000000;
+uint64_t max_start_velocity = std::numeric_limits<uint64_t>::max() / ten_seconds_in_nanos;
+uint64_t min_start_velocity = max_start_velocity / 5;
 
 #include "space.h"
 Space space;
