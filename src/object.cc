@@ -11,6 +11,6 @@ void Object::step(const std::chrono::high_resolution_clock::duration &interval){
     _position = _position + displacement;
 }
 
-std::ostream &operator<<(std::ostream &os, const Operator &o){
-    return os << o.str();
+std::ostream &operator<<(std::ostream &os, const Object &o){
+    return os << o.str() << " " << o._position << " " << o._velocity;
 }
