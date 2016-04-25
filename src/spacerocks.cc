@@ -14,7 +14,7 @@ size_t CONFIG_SCREEN_HEIGHT = 800;
 bool CONFIG_VSYNC = false;
 const uint64_t ten_seconds_in_nanos = (uint64_t)10 * (uint64_t)1000000000;
 uint64_t max_start_velocity = std::numeric_limits<uint64_t>::max() / ten_seconds_in_nanos;
-uint64_t min_start_velocity = max_start_velocity / 5;
+uint64_t min_start_velocity = -max_start_velocity;
 
 #include "space.h"
 Space space;
