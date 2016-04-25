@@ -96,6 +96,7 @@ int main(int argc, char *argv[]){
         const auto current_time = std::chrono::high_resolution_clock::now();
         const auto interval = current_time - universe_time;
         space.step(interval);
+        std::cerr << space << std::endl;
 
         SDL_RenderClear( renderer );
         SDL_RenderPresent( renderer );
