@@ -11,7 +11,7 @@ all: spacerocks
 install:
 
 spacerocks: spacerocks.o space.o object.o rock.o physics.o
-	${CXX} ${CXXFLAGS} -o spacerocks spacerocks.o space.o object.o rock.o physics.o -lboost_program_options -lSDL2
+	${CXX} ${CXXFLAGS} -o spacerocks spacerocks.o space.o object.o rock.o physics.o -lboost_program_options -lSDL2 -lSDL2_gfx
 
 spacerocks.o: src/spacerocks.cc
 	${CXX} ${CXXFLAGS} -c src/spacerocks.cc -o spacerocks.o

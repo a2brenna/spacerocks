@@ -1,4 +1,5 @@
 #include <SDL2/SDL.h>
+#include <SDL2/SDL2_gfxPrimitives.h>
 #include <iostream>
 #include <cassert>
 #include <chrono>
@@ -51,6 +52,18 @@ void populate_universe(Space &space){
 
 }
 
+std::pair<size_t, size_t> map_to_pixels(const Position &p){
+    const uint64_t posn_pixel_ratio = std::numeric_limits<uint64_t>::max() / CONFIG_SCREEN_WIDTH;
+    return std::pair<size_t, size_t>(p.x / posn_pixel_ratio, p.y / posn_pixel_ratio);
+}
+
+void render_space(SDL_Renderer *renderer, const Space &space){
+    for(const auto &o: space.objects()){
+        const auto pixel_posn = map_to_pixels(o->position());
+        filledCircleRGBA(renderer, pixel_posn.first, pixel_posn.second, 10, 0xFF, 0x88, 0x00, 0xFF);
+    }
+}
+
 int main(int argc, char *argv[]){
     std::cout << "Starting Spacerocks..." << std::endl;
 
@@ -100,6 +113,7 @@ int main(int argc, char *argv[]){
         std::cerr << space << std::endl;
 
         SDL_RenderClear( renderer );
+        render_space( renderer, space );
         SDL_RenderPresent( renderer );
         FRAMES_RENDERED++;
 
