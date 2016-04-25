@@ -9,7 +9,7 @@ size_t FRAMES_RENDERED = 0;
 namespace po = boost::program_options;
 
 size_t CONFIG_SCREEN_WIDTH = 800;
-size_t CONFIG_SCREEN_HEIGHT = 600;
+size_t CONFIG_SCREEN_HEIGHT = 800;
 bool CONFIG_VSYNC = false;
 const uint64_t ten_seconds_in_nanos = 10 * 1000000000;
 uint64_t max_start_velocity = std::numeric_limits<uint64_t>::max() / ten_seconds_in_nanos;
