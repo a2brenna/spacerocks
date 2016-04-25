@@ -13,7 +13,9 @@ class Object {
 
         Object(const Position &initial_placement, const Velocity &initial_velocity);
         Position _position;
+        Position position() const;
         Velocity _velocity;
+        Velocity velocity() const;
         void step(const std::chrono::high_resolution_clock::duration &t);
 
         virtual std::string str() const = 0;
