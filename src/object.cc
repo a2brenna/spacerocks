@@ -10,3 +10,7 @@ void Object::step(const std::chrono::high_resolution_clock::duration &interval){
     const Displacement displacement(_velocity, interval);
     _position = _position + displacement;
 }
+
+std::ostream &operator<<(std::ostream &os, const Operator &o){
+    return os << o.str();
+}
