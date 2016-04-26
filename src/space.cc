@@ -3,8 +3,8 @@
 
 void Space::step(const std::chrono::high_resolution_clock::duration &interval){
 
-    //move _objects to new posiitions
-    for(auto &o: _objects){
+    //move _rocks to new posiitions
+    for(auto &o: _rocks){
         o->step(interval);
     }
 
@@ -12,30 +12,30 @@ void Space::step(const std::chrono::high_resolution_clock::duration &interval){
 
 }
 
-void Space::add_object(std::shared_ptr<Object> new_object){
-    _objects.push_back(new_object);
+void Space::add_rock(std::shared_ptr<Rock> new_rock){
+    _rocks.push_back(new_rock);
 }
 
 std::string Space::str() const{
     std::stringstream out;
     out << "Space";
 
-    if(_objects.empty()){
+    if(_rocks.empty()){
         return out.str();
     }
     else{
         out << std::endl;
-        out << *(_objects[0]);
-        for(size_t i = 1; i < _objects.size(); i++){
+        out << *(_rocks[0]);
+        for(size_t i = 1; i < _rocks.size(); i++){
             out << std::endl;
-            out << *(_objects[i]);
+            out << *(_rocks[i]);
         }
         return out.str();
     }
 }
 
-const std::vector<std::shared_ptr<Object>> Space::objects() const{
-    return _objects;
+const std::vector<std::shared_ptr<Rock>> Space::rocks() const{
+    return _rocks;
 }
 
 std::ostream &operator<<(std::ostream &o, const Space &s){

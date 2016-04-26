@@ -46,7 +46,7 @@ void populate_universe(Space &space){
         const Position initial_p(rand_p_component(re), rand_p_component(re));
         const Velocity initial_v(rand_v_component(re), rand_v_component(re));
         std::cerr << "Add: Rock: " << initial_p << " " << initial_v << std::endl;
-        space.add_object(std::shared_ptr<Object>(new Rock(initial_p, initial_v)));
+        space.add_rock(std::shared_ptr<Rock>(new Rock(initial_p, initial_v)));
     }
 
 }
@@ -57,7 +57,7 @@ std::pair<size_t, size_t> map_to_pixels(const Position &p){
 }
 
 void render_space(SDL_Renderer *renderer, const Space &space){
-    for(const auto &o: space.objects()){
+    for(const auto &o: space.rocks()){
         const auto pixel_posn = map_to_pixels(o->position());
         filledCircleRGBA(renderer, pixel_posn.first, pixel_posn.second, 10, 0xFF, 0x88, 0x00, 0xFF);
     }

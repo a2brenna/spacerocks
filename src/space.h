@@ -6,18 +6,21 @@
 #include <chrono>
 
 #include "object.h"
+#include "rock.h"
+#include "ship.h"
 
 class Space{
 
     private:
 
-        std::vector<std::shared_ptr<Object>> _objects;
+        std::vector<std::shared_ptr<Rock>> _rocks;
+        std::shared_ptr<Ship> _ship;
 
     public:
 
         void step(const std::chrono::high_resolution_clock::duration &interval);
-        void add_object(std::shared_ptr<Object> new_object);
-        const std::vector<std::shared_ptr<Object>> objects() const;
+        void add_rock(std::shared_ptr<Rock> new_rock);
+        const std::vector<std::shared_ptr<Rock>> rocks() const;
         std::string str() const;
 
 };
