@@ -7,6 +7,7 @@ void Space::step(const std::chrono::high_resolution_clock::duration &interval){
     for(auto &o: _rocks){
         o->step(interval);
     }
+    _ship->step(interval);
 
     //check for collisions
 
