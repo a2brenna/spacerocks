@@ -49,6 +49,8 @@ void populate_universe(Space &space){
         space.add_rock(std::shared_ptr<Rock>(new Rock(initial_p, initial_v)));
     }
 
+    space.place_ship(std::shared_ptr<Ship>(new Ship(Position(std::numeric_limits<uint64_t>::max() / 2, std::numeric_limits<uint64_t>::max() / 2), Velocity(0,0))));
+
 }
 
 std::pair<size_t, size_t> map_to_pixels(const Position &p){
