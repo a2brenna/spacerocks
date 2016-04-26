@@ -96,8 +96,6 @@ int main(int argc, char *argv[]){
     }
     assert(renderer);
 
-    SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0xFF );
-
     populate_universe(space);
 
     const auto start_time = std::chrono::high_resolution_clock::now();
