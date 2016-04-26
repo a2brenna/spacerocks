@@ -20,6 +20,8 @@ class Space{
 
         void step(const std::chrono::high_resolution_clock::duration &interval);
         void add_rock(std::shared_ptr<Rock> new_rock);
+        void place_ship(std::shared_ptr<Ship> new_ship);
+        const std::shared_ptr<Ship> ship() const;
         const std::vector<std::shared_ptr<Rock>> rocks() const;
         std::string str() const;
 
