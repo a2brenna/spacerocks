@@ -63,6 +63,15 @@ void render_space(SDL_Renderer *renderer, const Space &space){
         const auto pixel_posn = map_to_pixels(o->position());
         filledCircleRGBA(renderer, pixel_posn.first, pixel_posn.second, 10, 0xFF, 0x88, 0x00, 0xFF);
     }
+
+    {
+        const auto centroid = map_to_pixels(space.ship()->position());
+        const std::pair<size_t, size_t> bow(centroid.first, centroid.second - 18);
+        const std::pair<size_t, size_t> left(centroid.first - 8, centroid.second + 8);
+        const std::pair<size_t, size_t> right(centroid.first + 8, centroid.second + 8);
+        filledTrigonRGBA(renderer, right.first, right.second, left.first, left.second, bow.first, bow.second,  0x00, 0xFF, 0x00, 0xFF);
+    }
+
 }
 
 int main(int argc, char *argv[]){
