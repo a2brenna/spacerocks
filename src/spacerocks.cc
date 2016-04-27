@@ -44,12 +44,12 @@ void populate_universe(Space &space){
 
     for(int i = 0; i < 10; i++){
         const Position initial_p(rand_p_component(re), rand_p_component(re));
-        const Velocity initial_v(rand_v_component(re), rand_v_component(re));
+        const Velocity initial_v(rand_v_component(re), rand_v_component(re), 0);
         std::cerr << "Add: Rock: " << initial_p << " " << initial_v << std::endl;
         space.add_rock(std::shared_ptr<Rock>(new Rock(initial_p, initial_v)));
     }
 
-    space.place_ship(std::shared_ptr<Ship>(new Ship(Position(std::numeric_limits<uint64_t>::max() / 2, std::numeric_limits<uint64_t>::max() / 2), Velocity(0,0))));
+    space.place_ship(std::shared_ptr<Ship>(new Ship(Position(std::numeric_limits<uint64_t>::max() / 2, std::numeric_limits<uint64_t>::max() / 2), Velocity(0,0,0))));
 
 }
 

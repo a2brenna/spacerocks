@@ -26,7 +26,8 @@ class Velocity {
 
         int64_t x;
         int64_t y;
-        Velocity(const int64_t &initial_x, const int64_t &initial_y);
+        int64_t r;
+        Velocity(const int64_t &initial_x, const int64_t &initial_y, const int64_t &initial_r);
 
 };
 
