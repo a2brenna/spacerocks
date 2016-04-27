@@ -119,7 +119,6 @@ int main(int argc, char *argv[]){
         const auto interval = current_time - universe_time;
 
         space.step(interval);
-        std::cerr << space << std::endl;
 
         SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0xFF );
         SDL_RenderClear( renderer );
