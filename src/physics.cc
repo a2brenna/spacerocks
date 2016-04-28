@@ -14,6 +14,7 @@ Position::Position(const uint64_t &initial_x, const uint64_t &initial_y){
 Displacement::Displacement(const Velocity &v, const std::chrono::high_resolution_clock::duration &t){
     x = v.x * t.count();
     y = v.y * t.count();
+    r = v.r * t.count();
 }
 
 Velocity operator+(const Velocity &a, const Velocity &b){

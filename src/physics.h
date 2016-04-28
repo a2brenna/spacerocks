@@ -16,6 +16,7 @@ class Position {
 
         uint64_t x;
         uint64_t y;
+        uint64_t r;
         Position(const uint64_t &initial_x, const uint64_t &initial_y);
 
 };
@@ -37,6 +38,7 @@ class Displacement {
 
         int64_t x;
         int64_t y;
+        int64_t r;
         Displacement(const Velocity &v, const std::chrono::high_resolution_clock::duration &t);
 
 };
