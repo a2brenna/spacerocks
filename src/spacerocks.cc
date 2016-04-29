@@ -13,7 +13,7 @@ namespace po = boost::program_options;
 size_t CONFIG_SCREEN_WIDTH = 800;
 size_t CONFIG_SCREEN_HEIGHT = 800;
 bool CONFIG_VSYNC = false;
-const uint64_t five_seconds_in_nanos = (uint64_t)5 * (uint64_t)1000000000;
+const int64_t five_seconds_in_nanos = (int64_t)5 * (int64_t)1000000000;
 int64_t max_start_velocity = std::numeric_limits<uint64_t>::max() / five_seconds_in_nanos;
 int64_t min_start_velocity = -max_start_velocity;
 
