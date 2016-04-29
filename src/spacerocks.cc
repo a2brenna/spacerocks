@@ -1,5 +1,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL2_gfxPrimitives.h>
+#include <SDL2/SDL_image.h>
 #include <iostream>
 #include <cassert>
 #include <chrono>
@@ -58,10 +59,12 @@ std::pair<size_t, size_t> map_to_pixels(const Position &p){
     return std::pair<size_t, size_t>(p.x / posn_pixel_ratio, p.y / posn_pixel_ratio);
 }
 
-void render_space(SDL_Renderer *renderer, const Space &space){
+void render_space(SDL_Renderer *renderer, const Space &space, SDL_Texture *rock){
     for(const auto &o: space.rocks()){
         const auto pixel_posn = map_to_pixels(o->position());
-        filledCircleRGBA(renderer, pixel_posn.first, pixel_posn.second, 10, 0xFF, 0x88, 0x00, 0xFF);
+        //filledCircleRGBA(renderer, pixel_posn.first, pixel_posn.second, 10, 0xFF, 0x88, 0x00, 0xFF);
+        SDL_Rect renderQuad = { pixel_posn.first, pixel_posn.second, 20, 20 };
+        SDL_RenderCopyEx(renderer, rock, NULL, &renderQuad, 0, NULL, SDL_FLIP_NONE);
     }
 
     {
@@ -96,6 +99,14 @@ int main(int argc, char *argv[]){
     }
     assert(renderer);
 
+	SDL_Texture *rock;
+	{
+        SDL_Surface *temp = IMG_Load( "./rock.png" );
+        rock = SDL_CreateTextureFromSurface( renderer, temp );
+        SDL_FreeSurface(temp);
+	}
+    assert(rock);
+
     populate_universe(space);
 
     const auto start_time = std::chrono::high_resolution_clock::now();
@@ -122,7 +133,7 @@ int main(int argc, char *argv[]){
 
         SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0xFF );
         SDL_RenderClear( renderer );
-        render_space( renderer, space );
+        render_space( renderer, space, rock );
         SDL_RenderPresent( renderer );
         FRAMES_RENDERED++;
 
