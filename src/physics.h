@@ -17,7 +17,7 @@ class Position {
         uint64_t x;
         uint64_t y;
         uint64_t r;
-        Position(const uint64_t &initial_x, const uint64_t &initial_y);
+        Position(const uint64_t &initial_x, const uint64_t &initial_y, const uint64_t &initial_r);
 
 };
 
