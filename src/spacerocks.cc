@@ -44,10 +44,11 @@ void populate_universe(Space &space){
     std::default_random_engine re;
     std::uniform_int_distribution<uint64_t> rand_p_component;
     std::uniform_int_distribution<int64_t> rand_v_component(min_start_velocity, max_start_velocity);
+    std::uniform_int_distribution<int64_t> rand_r_component(min_start_rotation, max_start_rotation);
 
     for(int i = 0; i < 10; i++){
-        const Position initial_p(rand_p_component(re), rand_p_component(re), 0);
-        const Velocity initial_v(rand_v_component(re), rand_v_component(re), 0);
+        const Position initial_p(rand_p_component(re), rand_p_component(re), rand_p_component(re));
+        const Velocity initial_v(rand_v_component(re), rand_v_component(re), rand_r_component(re));
         std::cerr << "Add: Rock: " << initial_p << " " << initial_v << std::endl;
         space.add_rock(std::shared_ptr<Rock>(new Rock(initial_p, initial_v)));
     }
@@ -66,7 +67,8 @@ void render_space(SDL_Renderer *renderer, const Space &space, SDL_Texture *rock)
         const auto pixel_posn = map_to_pixels(o->position());
         //filledCircleRGBA(renderer, pixel_posn.first, pixel_posn.second, 10, 0xFF, 0x88, 0x00, 0xFF);
         SDL_Rect renderQuad = { pixel_posn.first, pixel_posn.second, 20, 20 };
-        SDL_RenderCopyEx(renderer, rock, NULL, &renderQuad, 0, NULL, SDL_FLIP_NONE);
+        const double rotation_degrees = ((double)o->position().r / std::numeric_limits<uint64_t>::max()) * 360;
+        SDL_RenderCopyEx(renderer, rock, NULL, &renderQuad, rotation_degrees, NULL, SDL_FLIP_NONE);
     }
 
     {
