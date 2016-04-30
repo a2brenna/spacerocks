@@ -1,6 +1,10 @@
 #include "space.h"
 #include <sstream>
 
+std::shared_ptr<Ship> Space::ship(){
+    return _ship;
+}
+
 void Space::step(const std::chrono::high_resolution_clock::duration &interval){
 
     //move _rocks to new posiitions
