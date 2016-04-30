@@ -136,14 +136,20 @@ int main(int argc, char *argv[]){
                 {
                     case SDLK_UP:
                     //adjust ship forward
+                        std::cerr << "UP" << std::endl;
                     break;
                     case SDLK_LEFT:
+                        std::cerr << "LEFT" << std::endl;
+                        space.ship()->_position.r -= std::numeric_limits<uint64_t>::max() / 360 * 7;
                     //adjust ship rotation
                     break;
                     case SDLK_RIGHT:
+                        std::cerr << "RIGHT" << std::endl;
+                        space.ship()->_position.r += std::numeric_limits<uint64_t>::max() / 360 * 7;
                     //adjust ship rotation
                     break;
                     case SDLK_SPACE:
+                        std::cerr << "PEW PEW" << std::endl;
                     //fire gun
                     break;
                 }
