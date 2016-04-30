@@ -23,6 +23,8 @@ int64_t min_start_rotation = -max_start_rotation;
 Space space;
 
 #include "rock.h"
+SDL_Texture *rock;
+SDL_Texture *ship;
 
 void get_config(int argc, char *argv[]){
     po::options_description desc("Options");
@@ -65,18 +67,16 @@ std::pair<size_t, size_t> map_to_pixels(const Position &p){
 void render_space(SDL_Renderer *renderer, const Space &space, SDL_Texture *rock){
     for(const auto &o: space.rocks()){
         const auto pixel_posn = map_to_pixels(o->position());
-        //filledCircleRGBA(renderer, pixel_posn.first, pixel_posn.second, 10, 0xFF, 0x88, 0x00, 0xFF);
         SDL_Rect renderQuad = { pixel_posn.first, pixel_posn.second, 20, 20 };
         const double rotation_degrees = ((double)o->position().r / std::numeric_limits<uint64_t>::max()) * 360;
         SDL_RenderCopyEx(renderer, rock, NULL, &renderQuad, rotation_degrees, NULL, SDL_FLIP_NONE);
     }
 
     {
-        const auto centroid = map_to_pixels(space.ship()->position());
-        const std::pair<size_t, size_t> bow(centroid.first, centroid.second - 18);
-        const std::pair<size_t, size_t> left(centroid.first - 8, centroid.second + 8);
-        const std::pair<size_t, size_t> right(centroid.first + 8, centroid.second + 8);
-        filledTrigonRGBA(renderer, right.first, right.second, left.first, left.second, bow.first, bow.second,  0x00, 0xFF, 0x00, 0xFF);
+        const auto pixel_posn = map_to_pixels(space.ship()->position());
+        SDL_Rect renderQuad = { pixel_posn.first, pixel_posn.second, 20, 20 };
+        const double rotation_degrees = ((double)space.ship()->position().r / std::numeric_limits<uint64_t>::max()) * 360;
+        SDL_RenderCopyEx(renderer, ship, NULL, &renderQuad, rotation_degrees, NULL, SDL_FLIP_NONE);
     }
 
 }
@@ -103,13 +103,19 @@ int main(int argc, char *argv[]){
     }
     assert(renderer);
 
-	SDL_Texture *rock;
 	{
         SDL_Surface *temp = IMG_Load( "./rock.png" );
         rock = SDL_CreateTextureFromSurface( renderer, temp );
         SDL_FreeSurface(temp);
 	}
     assert(rock);
+
+	{
+        SDL_Surface *temp = IMG_Load( "./ship.png" );
+        ship = SDL_CreateTextureFromSurface( renderer, temp );
+        SDL_FreeSurface(temp);
+	}
+    assert(ship);
 
     populate_universe(space);
 
