@@ -125,6 +125,24 @@ int main(int argc, char *argv[]){
                 running = false;
                 break;
             }
+            else if(e.type == SDL_KEYDOWN){
+                switch( e.key.keysym.sym )
+                {
+                    case SDLK_UP:
+                    //adjust ship forward
+                    break;
+                    case SDLK_LEFT:
+                    //adjust ship rotation
+                    break;
+                    case SDLK_RIGHT:
+                    //adjust ship rotation
+                    break;
+                    case SDLK_SPACE:
+                    //fire gun
+                    break;
+                }
+
+            }
         }
         if(!running){
             break;
