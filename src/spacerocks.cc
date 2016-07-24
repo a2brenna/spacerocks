@@ -141,7 +141,7 @@ int main(int argc, char *argv[]){
         if( current_key_states[SDL_SCANCODE_UP] ){
             //adjust ship forward
             const auto r_rad = ( (double)(space.ship()->_position.r) / std::numeric_limits<uint64_t>::max()) * (2 * PI);
-            const int64_t d_y = -1 * THRUST * cos(r_rad);
+            const int64_t d_y = -1 * (THRUST * cos(r_rad));
             const int64_t d_x = THRUST * sin(r_rad);
             const Velocity thrust(d_x, d_y, 0);
             space.ship()->_velocity = space.ship()->velocity() + thrust;
