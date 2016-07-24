@@ -146,13 +146,13 @@ int main(int argc, char *argv[]){
             const Velocity thrust(d_x, d_y, 0);
             space.ship()->_velocity = space.ship()->velocity() + thrust;
         }
-        else if( current_key_states[SDL_SCANCODE_LEFT] ){
+        if( current_key_states[SDL_SCANCODE_LEFT] ){
             space.ship()->_position.r -= std::numeric_limits<uint64_t>::max() / 360 * 7;
         }
-        else if( current_key_states[SDL_SCANCODE_RIGHT] ){
+        if( current_key_states[SDL_SCANCODE_RIGHT] ){
             space.ship()->_position.r += std::numeric_limits<uint64_t>::max() / 360 * 7;
         }
-        else if( current_key_states[SDL_SCANCODE_SPACE] ){
+        if( current_key_states[SDL_SCANCODE_SPACE] ){
             std::cerr << "PEW PEW" << std::endl;
             //fire gun
         }
