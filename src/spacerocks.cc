@@ -3,6 +3,7 @@
 #include <SDL2/SDL_image.h>
 #include <iostream>
 #include <cassert>
+#include <thread>
 #include <chrono>
 
 size_t FRAMES_RENDERED = 0;
@@ -126,36 +127,29 @@ int main(int argc, char *argv[]){
     while(running){
 
         SDL_Event e;
-        while(SDL_PollEvent(&e) != 0){
-            if(e.type == SDL_QUIT){
-                running = false;
-                break;
-            }
-            else if(e.type == SDL_KEYDOWN){
-                switch( e.key.keysym.sym )
-                {
-                    case SDLK_UP:
-                    //adjust ship forward
-                        std::cerr << "UP" << std::endl;
-                    break;
-                    case SDLK_LEFT:
-                        std::cerr << "LEFT" << std::endl;
-                        space.ship()->_position.r -= std::numeric_limits<uint64_t>::max() / 360 * 7;
-                    //adjust ship rotation
-                    break;
-                    case SDLK_RIGHT:
-                        std::cerr << "RIGHT" << std::endl;
-                        space.ship()->_position.r += std::numeric_limits<uint64_t>::max() / 360 * 7;
-                    //adjust ship rotation
-                    break;
-                    case SDLK_SPACE:
-                        std::cerr << "PEW PEW" << std::endl;
-                    //fire gun
-                    break;
-                }
-
-            }
+        SDL_PollEvent(&e);
+        if(e.type == SDL_QUIT){
+            running = false;
+            break;
         }
+        const Uint8* current_key_states = SDL_GetKeyboardState( NULL );
+        if( current_key_states[SDL_SCANCODE_UP] ){
+            //adjust ship forward
+            std::cerr << "UP" << std::endl;
+        }
+        else if( current_key_states[SDL_SCANCODE_LEFT] ){
+            std::cerr << "LEFT" << std::endl;
+            space.ship()->_position.r -= std::numeric_limits<uint64_t>::max() / 360 * 7;
+        }
+        else if( current_key_states[SDL_SCANCODE_RIGHT] ){
+            std::cerr << "RIGHT" << std::endl;
+            space.ship()->_position.r += std::numeric_limits<uint64_t>::max() / 360 * 7;
+        }
+        else if( current_key_states[SDL_SCANCODE_SPACE] ){
+            std::cerr << "PEW PEW" << std::endl;
+            //fire gun
+        }
+
         if(!running){
             break;
         }
@@ -172,6 +166,7 @@ int main(int argc, char *argv[]){
         FRAMES_RENDERED++;
 
         universe_time = current_time;
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000/60));
     }
     const auto end_time = std::chrono::high_resolution_clock::now();
 
