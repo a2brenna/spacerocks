@@ -5,6 +5,7 @@
 #include <cassert>
 #include <thread>
 #include <chrono>
+#include <math.h>
 
 size_t FRAMES_RENDERED = 0;
 
@@ -19,6 +20,10 @@ int64_t max_start_velocity = std::numeric_limits<uint64_t>::max() / five_seconds
 int64_t min_start_velocity = -max_start_velocity;
 int64_t max_start_rotation = std::numeric_limits<uint64_t>::max() / (int64_t)1000000000;
 int64_t min_start_rotation = -max_start_rotation;
+
+const int64_t THRUST = 100000000;
+
+const double PI = 3.14159;
 
 #include "space.h"
 Space space;
@@ -135,14 +140,16 @@ int main(int argc, char *argv[]){
         const Uint8* current_key_states = SDL_GetKeyboardState( NULL );
         if( current_key_states[SDL_SCANCODE_UP] ){
             //adjust ship forward
-            std::cerr << "UP" << std::endl;
+            const auto r_rad = ( (double)(space.ship()->_position.r) / std::numeric_limits<uint64_t>::max()) * (2 * PI);
+            const int64_t d_y = -1 * THRUST * cos(r_rad);
+            const int64_t d_x = THRUST * sin(r_rad);
+            const Velocity thrust(d_x, d_y, 0);
+            space.ship()->_velocity = space.ship()->velocity() + thrust;
         }
         else if( current_key_states[SDL_SCANCODE_LEFT] ){
-            std::cerr << "LEFT" << std::endl;
             space.ship()->_position.r -= std::numeric_limits<uint64_t>::max() / 360 * 7;
         }
         else if( current_key_states[SDL_SCANCODE_RIGHT] ){
-            std::cerr << "RIGHT" << std::endl;
             space.ship()->_position.r += std::numeric_limits<uint64_t>::max() / 360 * 7;
         }
         else if( current_key_states[SDL_SCANCODE_SPACE] ){
