@@ -166,6 +166,10 @@ int main(int argc, char *argv[]){
 
         space.step(interval);
 
+        for(const auto &c: space.collisions()){
+            std::cerr << c.first << " " << c.second << " colliding" << std::endl;
+        }
+
         SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0xFF );
         SDL_RenderClear( renderer );
         render_space( renderer, space, rock );

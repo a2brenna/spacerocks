@@ -25,6 +25,8 @@ class Space{
 
         const std::shared_ptr<Ship> ship() const;
         const std::vector<std::shared_ptr<Rock>> rocks() const;
+
+        const std::vector<std::pair<std::shared_ptr<Object>, std::shared_ptr<Object>>> collisions() const;
         std::string str() const;
 
 };

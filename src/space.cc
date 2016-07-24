@@ -51,6 +51,11 @@ const std::shared_ptr<Ship> Space::ship() const{
     return _ship;
 }
 
+const std::vector<std::pair<std::shared_ptr<Object>, std::shared_ptr<Object>>> Space::collisions() const{
+    std::vector<std::pair<std::shared_ptr<Object>, std::shared_ptr<Object>>> colliding_objects;
+    return colliding_objects;
+}
+
 std::ostream &operator<<(std::ostream &o, const Space &s){
     return o << s.str();
 }
