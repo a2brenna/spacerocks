@@ -6,24 +6,20 @@
 #include <thread>
 #include <chrono>
 #include <math.h>
+#include "global.h"
 
 size_t FRAMES_RENDERED = 0;
 
 #include <boost/program_options.hpp>
 namespace po = boost::program_options;
 
-size_t CONFIG_SCREEN_WIDTH = 800;
-size_t CONFIG_SCREEN_HEIGHT = 800;
-bool CONFIG_VSYNC = false;
 const int64_t five_seconds_in_nanos = (int64_t)5 * (int64_t)1000000000;
 int64_t max_start_velocity = std::numeric_limits<uint64_t>::max() / five_seconds_in_nanos;
 int64_t min_start_velocity = -max_start_velocity;
 int64_t max_start_rotation = std::numeric_limits<uint64_t>::max() / (int64_t)1000000000;
 int64_t min_start_rotation = -max_start_rotation;
 
-const int64_t THRUST = 100000000;
-
-const double PI = 3.14159;
+size_t NUM_ROCKS = 1;
 
 #include "space.h"
 Space space;
@@ -54,7 +50,7 @@ void populate_universe(Space &space){
     std::uniform_int_distribution<int64_t> rand_v_component(min_start_velocity, max_start_velocity);
     std::uniform_int_distribution<int64_t> rand_r_component(min_start_rotation, max_start_rotation);
 
-    for(int i = 0; i < 10; i++){
+    for(int i = 0; i < NUM_ROCKS; i++){
         const Position initial_p(rand_p_component(re), rand_p_component(re), rand_p_component(re));
         const Velocity initial_v(rand_v_component(re), rand_v_component(re), rand_r_component(re));
         std::cerr << "Add: Rock: " << initial_p << " " << initial_v << std::endl;

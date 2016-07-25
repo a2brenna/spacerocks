@@ -10,8 +10,8 @@ all: spacerocks
 
 install:
 
-spacerocks: spacerocks.o space.o object.o rock.o ship.o physics.o
-	${CXX} ${CXXFLAGS} -o spacerocks spacerocks.o space.o object.o rock.o ship.o physics.o -lboost_program_options -lSDL2 -lSDL2_gfx -lSDL2_image
+spacerocks: spacerocks.o space.o object.o rock.o ship.o physics.o global.o
+	${CXX} ${CXXFLAGS} -o spacerocks spacerocks.o space.o object.o rock.o ship.o physics.o global.o -lboost_program_options -lSDL2 -lSDL2_gfx -lSDL2_image
 
 spacerocks.o: src/spacerocks.cc
 	${CXX} ${CXXFLAGS} -c src/spacerocks.cc -o spacerocks.o
@@ -30,6 +30,9 @@ ship.o: src/ship.cc
 
 physics.o: src/physics.cc
 	${CXX} ${CXXFLAGS} -c src/physics.cc -o physics.o
+
+global.o: src/global.cc
+	${CXX} ${CXXFLAGS} -c src/global.cc -o global.o
 
 clean:
 	rm -rf *.o
