@@ -7,6 +7,11 @@ std::shared_ptr<Ship> Space::ship(){
 
 void Space::step(const std::chrono::high_resolution_clock::duration &interval){
 
+    //move _bullets to new positions
+    for(auto &o: _bullets){
+        o->step(interval);
+    }
+
     //move _rocks to new posiitions
     for(auto &o: _rocks){
         o->step(interval);
@@ -19,6 +24,10 @@ void Space::step(const std::chrono::high_resolution_clock::duration &interval){
 
 void Space::add_rock(std::shared_ptr<Rock> new_rock){
     _rocks.push_back(new_rock);
+}
+
+void Space::add_bullet(std::shared_ptr<Bullet> new_bullet){
+    _bullets.insert(new_bullet);
 }
 
 void Space::place_ship(std::shared_ptr<Ship> new_ship){
@@ -45,6 +54,10 @@ std::string Space::str() const{
 
 const std::vector<std::shared_ptr<Rock>> Space::rocks() const{
     return _rocks;
+}
+
+const std::set<std::shared_ptr<Bullet>> Space::bullets() const{
+    return _bullets;
 }
 
 const std::shared_ptr<Ship> Space::ship() const{

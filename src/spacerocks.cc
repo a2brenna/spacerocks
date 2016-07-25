@@ -21,12 +21,15 @@ int64_t min_start_rotation = -max_start_rotation;
 
 size_t NUM_ROCKS = 1;
 
+#include "bullet.h"
+
 #include "space.h"
 Space space;
 
 #include "rock.h"
 SDL_Texture *rock;
 SDL_Texture *ship;
+SDL_Texture *bullet;
 
 void get_config(int argc, char *argv[]){
     po::options_description desc("Options");
@@ -74,6 +77,12 @@ void render_space(SDL_Renderer *renderer, const Space &space, SDL_Texture *rock)
         SDL_RenderCopyEx(renderer, rock, NULL, &renderQuad, rotation_degrees, NULL, SDL_FLIP_NONE);
     }
 
+    for(const auto &o: space.bullets()){
+        const auto pixel_posn = map_to_pixels(o->position());
+        SDL_Rect renderQuad = { pixel_posn.first, pixel_posn.second, 1, 1 };
+        SDL_RenderCopyEx(renderer, bullet, NULL, &renderQuad, 0, NULL, SDL_FLIP_NONE);
+    }
+
     {
         const auto pixel_posn = map_to_pixels(space.ship()->position());
         SDL_Rect renderQuad = { pixel_posn.first, pixel_posn.second, 20, 20 };
@@ -119,6 +128,13 @@ int main(int argc, char *argv[]){
 	}
     assert(ship);
 
+	{
+        SDL_Surface *temp = IMG_Load( "./bullet.png" );
+        bullet = SDL_CreateTextureFromSurface( renderer, temp );
+        SDL_FreeSurface(temp);
+	}
+    assert(bullet);
+
     populate_universe(space);
 
     const auto start_time = std::chrono::high_resolution_clock::now();
@@ -149,8 +165,12 @@ int main(int argc, char *argv[]){
             space.ship()->_position.r += std::numeric_limits<uint64_t>::max() / 360 * 7;
         }
         if( current_key_states[SDL_SCANCODE_SPACE] ){
-            std::cerr << "PEW PEW" << std::endl;
-            //fire gun
+            const auto r_rad = ( (double)(space.ship()->_position.r) / std::numeric_limits<uint64_t>::max()) * (2 * PI);
+            const int64_t d_y = -1 * (MUZZLE_VELOCITY * cos(r_rad));
+            const int64_t d_x = MUZZLE_VELOCITY * sin(r_rad);
+            const Velocity b_v(d_x, d_y, 0);
+            std::shared_ptr<Bullet> bullet(new Bullet(space.ship()->position(), b_v));
+            space.add_bullet(bullet);
         }
 
         if(!running){

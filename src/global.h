@@ -9,6 +9,7 @@ extern size_t UNITS_PER_PIXEL;
 
 extern bool CONFIG_VSYNC;
 extern size_t THRUST;
+extern size_t MUZZLE_VELOCITY;
 extern const double PI;
 
 #endif
