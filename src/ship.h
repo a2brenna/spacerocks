@@ -8,6 +8,7 @@ class Ship : public Object{
     public:
         using Object::Object;
         std::string str() const;
+        Bounding_Box bounding_box() const;
 
 };
 

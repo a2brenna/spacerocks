@@ -53,6 +53,12 @@ const std::shared_ptr<Ship> Space::ship() const{
 
 const std::vector<std::pair<std::shared_ptr<Object>, std::shared_ptr<Object>>> Space::collisions() const{
     std::vector<std::pair<std::shared_ptr<Object>, std::shared_ptr<Object>>> colliding_objects;
+
+    for(const auto &r: _rocks){
+        if(intersecting(_ship->bounding_box(), r->bounding_box())){
+            colliding_objects.push_back(std::pair<std::shared_ptr<Object>, std::shared_ptr<Object>>(_ship, r));
+        }
+    }
     return colliding_objects;
 }
 

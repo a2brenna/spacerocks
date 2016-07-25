@@ -17,6 +17,7 @@ class Bounding_Box {
 
     public:
         Bounding_Box(const uint64_t &min_x, const uint64_t &min_y, const uint64_t &max_x, const uint64_t &max_y);
+        Bounding_Box(const Position &p, const size_t &width);
         uint64_t max_x() const;
         uint64_t min_x() const;
         uint64_t max_y() const;
@@ -25,6 +26,8 @@ class Bounding_Box {
 };
 
 bool intersecting(const Bounding_Box &a, const Bounding_Box &b);
+
+std::ostream &operator<<(std::ostream& os, const Bounding_Box &b);
 
 class Object {
 
@@ -37,7 +40,7 @@ class Object {
         Velocity velocity() const;
         void step(const std::chrono::high_resolution_clock::duration &t);
 
-        //virtual Bounding_Box bounding_box() const = 0;
+        virtual Bounding_Box bounding_box() const = 0;
 
         virtual std::string str() const = 0;
 
