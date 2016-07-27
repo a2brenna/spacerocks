@@ -2,7 +2,7 @@
 #include "global.h"
 
 const size_t bullet_width = UNITS_PER_PIXEL * 1;
-const std::chrono::high_resolution_clock::duration lifespan(std::chrono::seconds(1));
+const std::chrono::high_resolution_clock::duration lifespan(std::chrono::seconds(3));
 
 Bullet::Bullet(const Position &ip, const Velocity &iv, const std::chrono::high_resolution_clock::time_point &now) :
     Object(ip, iv)
