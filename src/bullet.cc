@@ -4,10 +4,10 @@
 const size_t bullet_width = UNITS_PER_PIXEL * 1;
 const std::chrono::high_resolution_clock::duration lifespan(std::chrono::seconds(1));
 
-Bullet::Bullet(const Position &ip, const Velocity &iv) :
+Bullet::Bullet(const Position &ip, const Velocity &iv, const std::chrono::high_resolution_clock::time_point &now) :
     Object(ip, iv)
 {
-    _spawn_time = std::chrono::high_resolution_clock::now();
+    _spawn_time = now;
 }
 
 std::string Bullet::str() const{
@@ -19,10 +19,5 @@ Bounding_Box Bullet::bounding_box() const{
 }
 
 std::chrono::high_resolution_clock::duration Bullet::ttl(const std::chrono::high_resolution_clock::time_point &now) const{
-    if( (_spawn_time + lifespan) > now ){
-        return std::chrono::seconds(0);
-    }
-    else{
-        return (now - _spawn_time);
-    }
+    return (_spawn_time + lifespan) - now;
 }

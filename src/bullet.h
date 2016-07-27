@@ -6,7 +6,7 @@
 class Bullet: public Object{
 
     public:
-        Bullet(const Position &initial_placement, const Velocity &initial_velocity);
+        Bullet(const Position &initial_placement, const Velocity &initial_velocity, const std::chrono::high_resolution_clock::time_point &now);
         std::string str() const;
         Bounding_Box bounding_box() const;
 

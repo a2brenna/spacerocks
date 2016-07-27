@@ -143,6 +143,9 @@ int main(int argc, char *argv[]){
     auto universe_time = start_time;
     while(running){
 
+        const auto current_time = std::chrono::high_resolution_clock::now();
+        const auto interval = current_time - universe_time;
+
         SDL_Event e;
         SDL_PollEvent(&e);
         if(e.type == SDL_QUIT){
@@ -169,16 +172,13 @@ int main(int argc, char *argv[]){
             const int64_t d_y = -1 * (MUZZLE_VELOCITY * cos(r_rad));
             const int64_t d_x = MUZZLE_VELOCITY * sin(r_rad);
             const Velocity b_v(d_x, d_y, 0);
-            std::shared_ptr<Bullet> bullet(new Bullet(space.ship()->position(), b_v));
+            std::shared_ptr<Bullet> bullet(new Bullet(space.ship()->position(), b_v, current_time));
             space.add_bullet(bullet);
         }
 
         if(!running){
             break;
         }
-
-        const auto current_time = std::chrono::high_resolution_clock::now();
-        const auto interval = current_time - universe_time;
 
         space.step(interval);
 

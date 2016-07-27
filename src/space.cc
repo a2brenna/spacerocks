@@ -7,9 +7,17 @@ std::shared_ptr<Ship> Space::ship(){
 
 void Space::step(const std::chrono::high_resolution_clock::duration &interval){
 
+    const auto now = std::chrono::high_resolution_clock::now();
     //move _bullets to new positions
-    for(auto &o: _bullets){
-        o->step(interval);
+    for(auto o = _bullets.begin(); o != _bullets.end();){
+        const auto ttl = (*o)->ttl(now);
+        if( ttl > std::chrono::seconds(0)){
+            (*o)->step(interval);
+            o++;
+        }
+        else{
+            o = _bullets.erase(o);
+        }
     }
 
     //move _rocks to new posiitions
