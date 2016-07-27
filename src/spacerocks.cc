@@ -171,7 +171,8 @@ int main(int argc, char *argv[]){
             const auto r_rad = ( (double)(space.ship()->_position.r) / std::numeric_limits<uint64_t>::max()) * (2 * PI);
             const int64_t d_y = -1 * (MUZZLE_VELOCITY * cos(r_rad));
             const int64_t d_x = MUZZLE_VELOCITY * sin(r_rad);
-            const Velocity b_v(d_x, d_y, 0);
+            const auto sv = space.ship()->velocity();
+            const Velocity b_v(d_x + sv.x, d_y + sv.y, 0);
             std::shared_ptr<Bullet> bullet(new Bullet(space.ship()->position(), b_v, current_time));
             space.add_bullet(bullet);
         }
