@@ -14,22 +14,22 @@ size_t FRAMES_RENDERED = 0;
 namespace po = boost::program_options;
 
 const int64_t five_seconds_in_nanos = (int64_t)5 * (int64_t)1000000000;
-int64_t max_start_velocity = std::numeric_limits<uint64_t>::max() / five_seconds_in_nanos;
-int64_t min_start_velocity = -max_start_velocity;
-int64_t max_start_rotation = std::numeric_limits<uint64_t>::max() / (int64_t)1000000000;
-int64_t min_start_rotation = -max_start_rotation;
+const int64_t max_start_velocity = std::numeric_limits<uint64_t>::max() / five_seconds_in_nanos;
+const int64_t min_start_velocity = -max_start_velocity;
+const int64_t max_start_rotation = std::numeric_limits<uint64_t>::max() / (int64_t)1000000000;
+const int64_t min_start_rotation = -max_start_rotation;
 
 size_t NUM_ROCKS = 1;
 
 #include "bullet.h"
+SDL_Texture *bullet;
+SDL_Texture *rock;
+SDL_Texture *ship;
 
 #include "space.h"
 Space space;
 
 #include "rock.h"
-SDL_Texture *rock;
-SDL_Texture *ship;
-SDL_Texture *bullet;
 
 void get_config(int argc, char *argv[]){
     po::options_description desc("Options");
@@ -102,37 +102,46 @@ int main(int argc, char *argv[]){
         return -1;
     }
 
-    SDL_Window *window(SDL_CreateWindow( "Spacerocks", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, CONFIG_SCREEN_WIDTH, CONFIG_SCREEN_HEIGHT, SDL_WINDOW_SHOWN ));
-    assert(window);
+    SDL_Renderer *renderer = [](const size_t SCREEN_WIDTH, const size_t SCREEN_HEIGHT){
+        SDL_Window *window(SDL_CreateWindow( "Spacerocks", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN ));
+        assert(window);
 
-    SDL_Renderer *renderer;
-    if(CONFIG_VSYNC){
-        renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC );
-    }
-    else{
-        renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED );
-    }
+        SDL_Renderer *renderer;
+        if(CONFIG_VSYNC){
+            renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC );
+        }
+        else{
+            renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED );
+        }
+        return renderer;
+    }(CONFIG_SCREEN_WIDTH, CONFIG_SCREEN_HEIGHT);
     assert(renderer);
 
-	{
+    rock = [](SDL_Renderer *renderer){
+        SDL_Texture *r;
         SDL_Surface *temp = IMG_Load( "./rock.png" );
-        rock = SDL_CreateTextureFromSurface( renderer, temp );
+        r = SDL_CreateTextureFromSurface( renderer, temp );
         SDL_FreeSurface(temp);
-	}
+        return r;
+    }(renderer);
     assert(rock);
 
-	{
+    ship = [](SDL_Renderer *renderer){
+        SDL_Texture *s;
         SDL_Surface *temp = IMG_Load( "./ship.png" );
-        ship = SDL_CreateTextureFromSurface( renderer, temp );
+        s = SDL_CreateTextureFromSurface( renderer, temp );
         SDL_FreeSurface(temp);
-	}
+        return s;
+    }(renderer);
     assert(ship);
 
-	{
+    bullet = [](SDL_Renderer *renderer){
+        SDL_Texture *b;
         SDL_Surface *temp = IMG_Load( "./bullet.png" );
-        bullet = SDL_CreateTextureFromSurface( renderer, temp );
+        b = SDL_CreateTextureFromSurface( renderer, temp );
         SDL_FreeSurface(temp);
-	}
+        return b;
+	}(renderer);
     assert(bullet);
 
     populate_universe(space);
@@ -146,13 +155,17 @@ int main(int argc, char *argv[]){
         const auto current_time = std::chrono::high_resolution_clock::now();
         const auto interval = current_time - universe_time;
 
-        SDL_Event e;
-        SDL_PollEvent(&e);
+        const SDL_Event e = [](){
+            SDL_Event e;
+            SDL_PollEvent(&e);
+            return e;
+        }();
+
         if(e.type == SDL_QUIT){
             running = false;
             break;
         }
-        const Uint8* current_key_states = SDL_GetKeyboardState( NULL );
+        const Uint8 *current_key_states = SDL_GetKeyboardState( NULL );
         if( current_key_states[SDL_SCANCODE_UP] ){
             //adjust ship forward
             const auto r_rad = ( (double)(space.ship()->_position.r) / std::numeric_limits<uint64_t>::max()) * (2 * PI);
