@@ -208,7 +208,6 @@ int main(int argc, char *argv[]){
         FRAMES_RENDERED++;
 
         universe_time = current_time;
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000/60));
     }
     const auto end_time = std::chrono::high_resolution_clock::now();
 
