@@ -38,6 +38,7 @@ void get_config(int argc, char *argv[]){
         ("x", po::value<size_t>(&CONFIG_SCREEN_WIDTH), "Screen width")
         ("y", po::value<size_t>(&CONFIG_SCREEN_HEIGHT), "Screen height")
         ("vsync", po::bool_switch(&CONFIG_VSYNC), "Enable vsync")
+        ("debug", po::bool_switch(&DEBUG), "Enable debug output")
         ;
 
     po::variables_map vm;
@@ -56,7 +57,7 @@ void populate_universe(Space &space){
     for(int i = 0; i < NUM_ROCKS; i++){
         const Position initial_p(rand_p_component(re), rand_p_component(re), rand_p_component(re));
         const Velocity initial_v(rand_v_component(re), rand_v_component(re), rand_r_component(re));
-        std::cerr << "Add: Rock: " << initial_p << " " << initial_v << std::endl;
+        if(DEBUG) std::cout << "Add: Rock: " << initial_p << " " << initial_v << std::endl;
         space.add_rock(std::shared_ptr<Rock>(new Rock(initial_p, initial_v)));
     }
 
@@ -93,12 +94,12 @@ void render_space(SDL_Renderer *renderer, const Space &space, SDL_Texture *rock)
 }
 
 int main(int argc, char *argv[]){
-    std::cout << "Starting Spacerocks..." << std::endl;
+    if(DEBUG) std::cout << "Starting Spacerocks..." << std::endl;
 
     get_config(argc, argv);
 
     if( SDL_Init(SDL_INIT_VIDEO) < 0 ){
-        std::cerr << "Fatal SDL_Init(...) error" << std::endl;
+        if(DEBUG) std::cout << "Fatal SDL_Init(...) error" << std::endl;
         return -1;
     }
 
@@ -197,7 +198,7 @@ int main(int argc, char *argv[]){
         space.step(interval);
 
         for(const auto &c: space.collisions()){
-            std::cerr << c.first << " " << c.second << " colliding" << std::endl;
+            if(DEBUG) std::cout << c.first << " " << c.second << " colliding" << std::endl;
         }
 
         SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0xFF );
@@ -211,7 +212,7 @@ int main(int argc, char *argv[]){
     }
     const auto end_time = std::chrono::high_resolution_clock::now();
 
-    std::cerr << "FPS: " << FRAMES_RENDERED / std::chrono::duration_cast<std::chrono::seconds>(end_time - start_time).count() << std::endl;
+    if(DEBUG) std::cout << "FPS: " << FRAMES_RENDERED / std::chrono::duration_cast<std::chrono::seconds>(end_time - start_time).count() << std::endl;
 
     return 0;
 }
